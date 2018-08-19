@@ -34,7 +34,8 @@ class SlidingUpPanel extends React.Component {
     showBackdrop: PropTypes.bool,
     contentStyle: PropTypes.any,
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-    renderDraggableHeader: PropTypes.func
+    renderDraggableHeader: PropTypes.func,
+    defaultYPosition: PropTypes.number
   }
 
   static defaultProps = {
@@ -47,7 +48,8 @@ class SlidingUpPanel extends React.Component {
     allowMomentum: true,
     allowDragging: true,
     showBackdrop: true,
-    renderDraggableHeader: null
+    renderDraggableHeader: null,
+    defaultYPosition: null
   }
 
   constructor(props) {
@@ -101,7 +103,13 @@ class SlidingUpPanel extends React.Component {
       this._requestCloseTriggered = false
 
       this.setState({visible: true}, () => {
-        this.transitionTo(-this.props.draggableRange.top)
+        const { defaultYPosition, draggableRange } = this.props;
+        
+        if (defaultYPosition && typeof defaultYPosition === 'number') {
+          this.transitionTo(this.props.defaultYPosition)
+        } else {
+          this.transitionTo(-draggableRange.top)
+        }
       })
       return
     }
