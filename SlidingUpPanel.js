@@ -37,7 +37,7 @@ class SlidingUpPanel extends React.Component {
     contentStyle: PropTypes.any,
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     renderDraggableHeader: PropTypes.func,
-    defaultYPosition: PropTypes.number
+    defaultYPosition: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
   }
 
   static defaultProps = {
@@ -108,8 +108,8 @@ class SlidingUpPanel extends React.Component {
 
       this.setState({visible: true}, () => {
         const { defaultYPosition, draggableRange } = this.props;
-        
-        if (defaultYPosition && typeof defaultYPosition === 'number') {
+
+        if (defaultYPosition) {
           this.transitionTo(this.props.defaultYPosition)
         } else {
           this.transitionTo(-draggableRange.top)
@@ -251,7 +251,7 @@ class SlidingUpPanel extends React.Component {
       toValue: -Math.abs(toValue),
       useNativeDriver: useNativeDriver,
       delay: Platform.OS === 'android' ? 166.67 : undefined // to make it looks smooth on android
-      
+
     }
 
     const animation = Animated.timing(
