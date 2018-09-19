@@ -240,7 +240,6 @@ class SlidingUpPanel extends React.Component {
     const {
       toValue,
       easing,
-      useNativeDriver,
       onAnimationEnd = () => {},
       duration = DEFAULT_SLIDING_DURATION
     } = options
@@ -249,7 +248,7 @@ class SlidingUpPanel extends React.Component {
       duration,
       easing,
       toValue: -Math.abs(toValue),
-      useNativeDriver: useNativeDriver,
+      useNativeDriver: this.props.useNativeDriver,
       delay: Platform.OS === 'android' ? 166.67 : undefined // to make it looks smooth on android
 
     }
