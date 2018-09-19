@@ -203,7 +203,7 @@ class SlidingUpPanel extends React.Component {
   _onDrag({value}) {
     const {top, bottom} = this.props.draggableRange
 
-    if (value >= -bottom) {
+    if (value && value >= -bottom) {
       this._isAtBottom = true
 
       if (this._backdrop != null) {
