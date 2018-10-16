@@ -321,6 +321,7 @@ class SlidingUpPanel extends React.Component {
           key="content"
           pointerEvents="box-none"
           style={animatedContainerStyles}>
+          {this.props.dragToFillScreen && top < visibleHeight ? this.props.renderTopFiller() : null}
           {this.props.renderDraggableHeader(this._panResponder.panHandlers)}
           {this.props.children}
         </Animated.View>
