@@ -274,6 +274,14 @@ class SlidingUpPanel extends React.Component {
       extrapolate: 'clamp'
     })
 
+    const topOpacity = this._translateYAnimation.interpolate({
+      inputRange: [-top, -bottom],
+      outputRange: [1, -10],
+      extrapolate: 'clamp'
+    })
+
+    const topHeight = visibleHeight - top
+
     return (
       <Animated.View
         key="backdrop"
@@ -282,7 +290,9 @@ class SlidingUpPanel extends React.Component {
         onTouchStart={() => this._flick.stop()}
         onTouchEnd={() => this.props.onRequestClose()}
         style={[styles.backdrop, {opacity: backdropOpacity}]}
-      />
+      >
+        {topHeight ? <Animated.View style={{ position: 'absolute', top: 0, width: '100%', height: topHeight, backgroundColor: '#fff', opacity: topOpacity }} /> : null}
+      </Animated.View>
     )
   }
 
@@ -301,7 +311,7 @@ class SlidingUpPanel extends React.Component {
     const animatedContainerStyles = [
       styles.animatedContainer,
       transform,
-      {height, top: visibleHeight, bottom: 0}
+      {height, top: visibleHeight, bottom: 0},
     ]
 
     if (typeof this.props.children === 'function') {
@@ -321,7 +331,6 @@ class SlidingUpPanel extends React.Component {
           key="content"
           pointerEvents="box-none"
           style={animatedContainerStyles}>
-          {this.props.dragToFillScreen && top < visibleHeight ? this.props.renderTopFiller() : null}
           {this.props.renderDraggableHeader(this._panResponder.panHandlers)}
           {this.props.children}
         </Animated.View>
